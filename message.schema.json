@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DeviceMessage",
+  "type": "object",
+  "required": [
+    "device_id",
+    "ts",
+    "seq",
+    "metrics",
+    "schema_version"
+  ],
+  "properties": {
+    "device_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]{3,32}$"
+    },
+    "ts": {
+      "type": "integer",
+      "minimum": 1577836800000,
+      "description": "device_ts, epoch ms по часам устройства"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "metrics": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "temperature": {
+          "type": "number",
+          "minimum": -40,
+          "maximum": 85
+        },
+        "humidity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "pressure": {
+          "type": "number",
+          "minimum": 300,
+          "maximum": 1100
+        },
+        "motion": {
+          "type": "integer",
+          "enum": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    "battery": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "rssi": {
+      "type": "integer",
+      "minimum": -120,
+      "maximum": 0
+    },
+    "buf_dropped": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "сколько записей потеряно из-за переполнения буфера"
+    }
+  },
+  "additionalProperties": false
+}
